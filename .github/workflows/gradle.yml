@@ -33,9 +33,26 @@ jobs:
     - run: touch ./src/main/resources/application.properties
     - run: echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application.properties
     - run: cat ./src/main/resources/application.properties
-    
+  
+    # 빌드(CI)
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+      with:
+        arguments: build
+  
+    # 배포할 bootJar 파일 생성
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: bootJar
-    - run: ls
+      
+    # 배포 (scp)
+    - name: Deploy build outputs
+      uses: appleboy/scp-action@master
+      with:
+        username: ubuntu
+        host: ${{ secrets.BACKEND_HOST }}
+        key: ${{ secrets.BACKEND_KEY }}
+        source: "./build/libs/*.jar"
+        target: "/home/ubuntu"
+        strip_components: 1
