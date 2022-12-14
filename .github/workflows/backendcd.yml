@@ -1,4 +1,4 @@
-name: Backend CD
+name: backendcd
 
 on:
   push:
@@ -43,4 +43,4 @@ jobs:
         target: "/home/ubuntu"
         strip_components: 1
 
-		# 운영 서버의 스크립트 실행
+# 운영 서버의 스크립트 실행
