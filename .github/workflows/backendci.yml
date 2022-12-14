@@ -1,4 +1,4 @@
-name: Backend CI
+name: backendci
 
 on:
   pull_request:
@@ -20,7 +20,7 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
     
-		# secret에 있는 application.properties 값 셋팅
+    # secret에 있는 application.properties 값 셋팅
     - uses: actions/checkout@v3
     - run: touch ./src/main/resources/application.properties
     - run: echo "${{ secrets.APPLICATION_PROPERTIES }}" > ./src/main/resources/application.properties
